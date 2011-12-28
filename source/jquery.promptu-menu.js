@@ -61,6 +61,11 @@
 				'display': 'block',
 				'position': 'absolute'
 			});
+			
+			//and set each elements specific position
+			$this.children('li').each(function(){
+				//stuff starts here
+			});
 		}
 	});
 
