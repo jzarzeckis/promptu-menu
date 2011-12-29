@@ -12,12 +12,6 @@
 		'duration': 500
 	}, options);
 	
-	var methods = {
-		next_page: function(){
-			
-		}
-	}
-	
 	return this.each(function(){
 		var $this = $(this);
 		var properties;
@@ -29,7 +23,36 @@
 		var cells = {
 			'width': 0,
 			'height': 0,
-			'pages': 1
+			'pages': 1,
+			'current_page': 1
+		};
+		
+		var methods = {
+			//navigating to a specific page
+			go_to: function(index){
+				if(settings.direction == 'vertical'){
+					
+					$this.animate({
+						'top': (index - 1) * properties.height * (-1)
+					}, settings.duration);
+					
+				} else {
+					
+					$this.animate({
+						'left': (index - 1) * properties.width * (-1)
+					}, settings.duration);
+					
+				}
+				$this.parent('.promptumenu_window').find('.promptumenu_nav a.active').removeClass('active');
+				$this.parent('.promptumenu_window').find('.promptumenu_nav a:nth-child(' + (index) + ')').addClass('active');
+				cells.current_page = index;
+			},
+			next_page: function(){
+				methods.go_to(cells.current_page + 1);
+			},
+			prev_page: function(){
+				methods.go_to(cells.current_page - 1);
+			}
 		};
 		
 		if($this.data('promptumenu')){
@@ -127,24 +150,12 @@
 				
 				//bind the nav buttons to navigate to the specific page
 				$this.parent('div.promptumenu_window').find('.promptumenu_nav a').bind('click', function(){
-					
-					var go_to = $(this).index() + 1;
-					
-					if(settings.direction == 'vertical'){
-						
-						$this.animate({
-							'top': (go_to - 1) * properties.height * (-1)
-						}, settings.duration);
-						
-					} else {
-						
-						$this.animate({
-							'left': (go_to - 1) * properties.width * (-1)
-						}, settings.duration);
-						
-					}
+					methods.go_to($(this).index() + 1);
 				});
 			}
+			
+			//Binding all the drag movements
+			
 		}
 	});
 

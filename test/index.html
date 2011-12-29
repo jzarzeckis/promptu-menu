@@ -7,11 +7,18 @@
 		<script type="text/javascript" src="../source/jquery.promptu-menu.js"></script>
 		
 		<style type="text/css">
-			
+			.promptumenu_nav a.active{
+				color: red;
+			}
+			.promptumenu_window{
+				cursor: url(../img/hand.ico), move;
+			}
 		</style>
 		
 		<script type="text/javascript">
-			
+			$(function(){
+				$('ul').promptumenu({width:500, height:500, rows: 2, columns: 2, direction: 'vertical'});
+			});
 		</script>
 	</head>
 	<body>
