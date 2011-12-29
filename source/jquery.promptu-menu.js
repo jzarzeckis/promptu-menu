@@ -1,7 +1,7 @@
 (function( $ ) {
-  $.fn.promptuMenu = function(options) {
+  $.fn.promptumenu = function(options) {
   
-    // Do your awesome plugin stuff here
+    // Here goes
 	
 	var settings = $.extend({
 		'columns': 3,
@@ -16,8 +16,13 @@
 		var properties;
 		var cursor = {
 			x:0,
-			y:0,
+			y:1,
 			page:1
+		};
+		var cells = {
+			'width': 0,
+			'height': 0,
+			'pages': 1
 		};
 		
 		if($this.data('promptumenu')){
@@ -29,19 +34,20 @@
 			
 			//take in mind the original css properties of the element, so we can preserve it's position.
 			properties = {
-				width: (settings.width == 'auto') ? $this.width() : settings.width,
-				height: (settings.height == 'auto') ? $this.height() : settings.height,
-				margin: $this.css('margin'),
-				position: ($this.css('position') == 'absolute') ? 'absolute' : 'relative',
-				top: $this.css('top'),
-				right: $this.css('right'),
-				bottom: $this.css('bottom'),
-				left: $this.css('left'),
-				padding: 0,
-				display: 'block',
-				overflow: 'hidden'
+				'width': (settings.width == 'auto') ? $this.width() : settings.width,
+				'height': (settings.height == 'auto') ? $this.height() : settings.height,
+				'margin': $this.css('margin'),
+				'position': ($this.css('position') == 'absolute') ? 'absolute' : 'relative',
+				'top': $this.css('top'),
+				'right': $this.css('right'),
+				'bottom': $this.css('bottom'),
+				'left': $this.css('left'),
+				'padding': 0,
+				'display': 'block',
+				'overflow': 'hidden'
 			}
-			
+			cells.width = properties.width / settings.columns;
+			cells.height = properties.height / settings.rows;
 			
 			$this.wrap('<div class="promptumenu_window" />')
 			$this.parent('.promptumenu_window').css(properties);
@@ -49,7 +55,7 @@
 				'display': 'block',
 				'position': 'absolute',
 				'list-style': 'none',
-				'overflow': 'hidden',
+				'overflow': 'visible',
 				'height': 'auto',
 				'width': 'auto',
 				'top': 0,
@@ -59,12 +65,44 @@
 			//and set up each child element
 			$this.children('li').css({
 				'display': 'block',
-				'position': 'absolute'
+				'position': 'absolute',
+				'margin': 0
 			});
 			
-			//and set each elements specific position
 			$this.children('li').each(function(){
-				//stuff starts here
+				var $li = $(this);
+				
+				//Moving like a typewriter
+				cursor.x += 1;
+				//if we reach the end of columns, add a new line and reset typewriter
+				if(cursor.x > settings.columns){
+					cursor.x = 1;
+					cursor.y += 1;
+				}
+				//if we reach the end of the page, turn the page
+				if(cursor.y > settings.rows){
+					cursor.x = 1;
+					cursor.y = 1;
+					cursor.page += 1;
+				}
+				
+				if(settings.direction == 'vertical'){
+				  
+					//Lay the pages in a vertical order
+					$li.css({
+						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.outerHeight()/2) + (cursor.page - 1) * properties.height),
+						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.outerWidth()/2))
+					});
+				  
+				} else {
+				  
+					//Lay the pages in a horizontal order
+					$li.css({
+						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.outerHeight() / 2)),
+						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.outerWidth()/2) + (cursor.page - 1) * properties.width)
+					});
+				  
+				}
 			});
 		}
 	});
