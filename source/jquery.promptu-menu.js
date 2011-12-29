@@ -149,13 +149,13 @@
 				$this.parent('div.promptumenu_window').append('<div class="promptumenu_nav">' + page_links + '</div>');
 				
 				//bind the nav buttons to navigate to the specific page
-				$this.parent('div.promptumenu_window').find('.promptumenu_nav a').bind('click', function(){
+				$this.parent('div.promptumenu_window').find('.promptumenu_nav a').bind('click.promptumenu', function(){
 					methods.go_to($(this).index() + 1);
 				});
 			}
 			
 			//Binding all the drag movements
-			
+			//$this.bind('click.promptumenu')
 		}
 	});
 
