@@ -8,8 +8,15 @@
 		'rows': 4,
 		'direction': 'horizontal',
 		'width': 'auto',
-		'height': 'auto'
+		'height': 'auto',
+		'duration': 500
 	}, options);
+	
+	var methods = {
+		next_page: function(){
+			
+		}
+	}
 	
 	return this.each(function(){
 		var $this = $(this);
@@ -103,7 +110,41 @@
 					});
 				  
 				}
+				
 			});
+			
+			cells.pages = cursor.page;
+			$this.data('promptumenu_page_count', cells.pages);
+			
+			//and append the navigation buttons for each page
+			if(cells.pages > 1){
+				var page_links = '<a class="active">Page 1</a>';
+				for(i = 2; i <= cells.pages; i++){
+					page_links = page_links + '<a>Page ' + i + '</a>';
+				}
+				
+				$this.parent('div.promptumenu_window').append('<div class="promptumenu_nav">' + page_links + '</div>');
+				
+				//bind the nav buttons to navigate to the specific page
+				$this.parent('div.promptumenu_window').find('.promptumenu_nav a').bind('click', function(){
+					
+					var go_to = $(this).index() + 1;
+					
+					if(settings.direction == 'vertical'){
+						
+						$this.animate({
+							'top': (go_to - 1) * properties.height * (-1)
+						}, settings.duration);
+						
+					} else {
+						
+						$this.animate({
+							'left': (go_to - 1) * properties.width * (-1)
+						}, settings.duration);
+						
+					}
+				});
+			}
 		}
 	});
 
