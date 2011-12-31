@@ -183,13 +183,23 @@
 					'x': mdown.pageX,
 					'y': mdown.pageY
 				};
-				var delta, mtime, delta_time;
+				var delta;
+				var mmove_event = new Array();
 				
 				//bind the mousemove to moving the list
 				$(document).bind('mousemove.promptumenu', function(mmove){
 					mmove.preventDefault();
 					var date = new Date();
-					mtime = date.getTime();
+					var this_event = {
+						'time': date.getTime(),
+						'x': mmove.pageX,
+						'y': mmove.pageY
+					};
+					//I want to get the average of the last 6 mousemove events before mouseup
+					mmove_event.push(this_event);
+					while(mmove_event.length > 4){
+						mmove_event.shift();
+					}
 					
 					if(settings.direction == 'vertical'){
 						delta = mmove.pageY - click.y;
@@ -205,9 +215,22 @@
 					mup.preventDefault();
 					$(document).unbind('.promptumenu');
 					
-					//console.log(delta_time);
-					var movement = mup.pageY - click.y;
-					console.log(movement - delta);
+					var date = new Date();
+					
+					var delta_start = mmove_event[0];
+					var delta_end = {
+						'time': date.getTime(),
+						'x': mup.pageX,
+						'y': mup.pageY
+					};
+					var event_delta = {
+						'time': (delta_end.time - delta_start.time),
+						'x': (delta_end.x - delta_start.x),
+						'y': (delta_end.y - delta_start.y)
+					}
+					console.log(mmove_event);
+					//console.log('The time delta is: ' + (delta_end.time - delta_start.time));
+					//console.log('The y_speed was: ' + (event_delta.y/event_delta.time));
 				});
 			});
 		}
