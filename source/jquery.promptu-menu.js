@@ -89,7 +89,9 @@
 				'height': 'auto',
 				'width': 'auto',
 				'top': 0,
-				'left': 0
+				'left': 0,
+				'margin': 0,
+				'padding': 0
 			});
 			
 			//and set up each child element
@@ -154,8 +156,60 @@
 				});
 			}
 			
+			//Make the list size appropriate, so that it could be dragged
+			//(or else users will be able to drag only by clicking the icons, but clicking
+			// on background will not activate dragging)
+			if(settings.direction == 'vertical'){
+				$this.css({
+					'width': properties.width,
+					'height': properties.height * cells.pages
+				});
+			} else {
+				$this.css({
+					'width': properties.width * cells.pages,
+					'height': properties.height
+				});
+			}
+			
 			//Binding all the drag movements
 			//$this.bind('click.promptumenu')
+			$this.bind('mousedown.promptumenu', function(mdown){
+				mdown.preventDefault();
+				
+				$this.stop(true, false);
+				
+				var init_pos = $this.position();
+				var click = {
+					'x': mdown.pageX,
+					'y': mdown.pageY
+				};
+				var delta, mtime, delta_time;
+				
+				//bind the mousemove to moving the list
+				$(document).bind('mousemove.promptumenu', function(mmove){
+					mmove.preventDefault();
+					var date = new Date();
+					mtime = date.getTime();
+					
+					if(settings.direction == 'vertical'){
+						delta = mmove.pageY - click.y;
+						$this.css('top', init_pos.top + delta);
+					} else {
+						delta = mmove.pageX - click.x;
+						$this.css('left', init_pos.left + delta);
+					}
+				});
+				
+				//bind the mouseup to unbinding and animating to the appropriate page
+				$(document).bind('mouseup.promptumenu', function(mup){
+					mup.preventDefault();
+					$(document).unbind('.promptumenu');
+					
+					//console.log(delta_time);
+					var movement = mup.pageY - click.y;
+					console.log(movement - delta);
+				});
+			});
 		}
 	});
 
