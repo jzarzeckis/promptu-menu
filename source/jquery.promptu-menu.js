@@ -9,7 +9,9 @@
 		'direction': 'horizontal',
 		'width': 'auto',
 		'height': 'auto',
-		'duration': 500
+		'duration': 500,
+		'pages': true,
+		'inertia': 200
 	}, options);
 	
 	return this.each(function(){
@@ -29,18 +31,21 @@
 		
 		var methods = {
 			//navigating to a specific page
-			go_to: function(index){
+			go_to: function(index, easing){
+				if (easing === undefined){
+					easing = 'swing';
+				}
 				if(settings.direction == 'vertical'){
 					
 					$this.animate({
 						'top': (index - 1) * properties.height * (-1)
-					}, settings.duration);
+					}, settings.duration, easing);
 					
 				} else {
 					
 					$this.animate({
 						'left': (index - 1) * properties.width * (-1)
-					}, settings.duration);
+					}, settings.duration, easing);
 					
 				}
 				$this.parent('.promptumenu_window').find('.promptumenu_nav a.active').removeClass('active');
@@ -142,7 +147,7 @@
 			$this.data('promptumenu_page_count', cells.pages);
 			
 			//and append the navigation buttons for each page
-			if(cells.pages > 1){
+			if(cells.pages > 1 && settings.pages == true){
 				var page_links = '<a class="active">Page 1</a>';
 				for(i = 2; i <= cells.pages; i++){
 					page_links = page_links + '<a>Page ' + i + '</a>';
@@ -183,7 +188,10 @@
 					'x': mdown.pageX,
 					'y': mdown.pageY
 				};
-				var delta;
+				var delta = {
+					'x': 0,
+					'y': 0
+				};
 				var mmove_event = new Array();
 				
 				//bind the mousemove to moving the list
@@ -195,19 +203,20 @@
 						'x': mmove.pageX,
 						'y': mmove.pageY
 					};
+					
 					//I want to get the average of the last 6 mousemove events before mouseup
-					mmove_event.push(this_event);
 					while(mmove_event.length > 4){
 						mmove_event.shift();
 					}
 					
 					if(settings.direction == 'vertical'){
-						delta = mmove.pageY - click.y;
-						$this.css('top', init_pos.top + delta);
+						delta.y = mmove.pageY - click.y;
+						$this.css('top', init_pos.top + delta.y);
 					} else {
-						delta = mmove.pageX - click.x;
-						$this.css('left', init_pos.left + delta);
+						delta.x = mmove.pageX - click.x;
+						$this.css('left', init_pos.left + delta.x);
 					}
+					mmove_event.push(this_event);
 				});
 				
 				//bind the mouseup to unbinding and animating to the appropriate page
@@ -228,9 +237,57 @@
 						'x': (delta_end.x - delta_start.x),
 						'y': (delta_end.y - delta_start.y)
 					}
-					console.log(mmove_event);
+					var speed = {
+						'x': event_delta.x/event_delta.time,
+						'y': event_delta.y/event_delta.time
+					}
+					//console.log(mmove_event);
 					//console.log('The time delta is: ' + (delta_end.time - delta_start.time));
 					//console.log('The y_speed was: ' + (event_delta.y/event_delta.time));
+					
+					//And now we can animate the list with the appropriate distance and speed
+					if(settings.direction == 'vertical'){
+						
+						var pos = init_pos.top + delta.y + speed.y * settings.inertia;
+						//check if the user hasn't dragged over the end..
+						if(pos < ((-1) * properties.height * (cells.pages - 1))){
+							pos = (-1) * properties.height * (cells.pages - 1);
+						} else if(pos > 0){
+							pos = 0;
+						}
+						
+						//if the pages are being displayed, we want to snap to the specific page
+						if(settings.pages){
+							var snap_to_page = Math.round((- pos) / properties.height)
+							methods.go_to(snap_to_page + 1, 'inertia');
+						} else {
+							$this.animate({
+								'top': pos
+							}, Math.abs(speed.y * settings.inertia), 'inertia');
+						}
+						
+						
+					} else {
+						
+						var pos = init_pos.left + delta.x + speed.x * settings.inertia;
+						//check if the user hasn't dragged over the end..
+						if(pos < ((-1) * properties.width * (cells.pages - 1))){
+							pos = (-1) * properties.width * (cells.pages - 1);
+						} else if(pos > 0){
+							pos = 0;
+						}
+						
+						//if the pages are being displayed, we want to snap to the specific page
+						if(settings.pages){
+							var snap_to_page = Math.round((- pos) / properties.width)
+							methods.go_to(snap_to_page + 1, 'inertia');
+						} else {
+							$this.animate({
+								'left': pos
+							}, Math.abs(speed.x * settings.inertia), 'inertia');
+						}
+						
+					}
 				});
 			});
 		}
@@ -238,3 +295,9 @@
 
   };
 })( jQuery );
+//Easing for inertia when dragging
+jQuery.extend(jQuery.easing, {
+	inertia: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	}
+});
