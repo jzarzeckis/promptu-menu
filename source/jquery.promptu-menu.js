@@ -1,3 +1,10 @@
+/*
+ * promptuMenu - jQuery Plugin
+ * https://github.com/natrixnatrix89/promptu-menu
+ *
+ * Copyright (c) 2012 Janis Zarzeckis (http://natrixnatrix89.net)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ */
 (function( $ ) {
   $.fn.promptumenu = function(options) {
   
@@ -177,7 +184,6 @@
 			}
 			
 			//Binding all the drag movements
-			//$this.bind('click.promptumenu')
 			$this.bind('mousedown.promptumenu', function(mdown){
 				mdown.preventDefault();
 				
@@ -289,6 +295,139 @@
 						
 					}
 				});
+				
+				try {
+					//And here we do basically the sama again to bind swiping on mobile devices like iPhone, iPad, android, etc
+					var nthis = $this[0];
+					
+					var touchmove = function(tmove){
+						
+						tmove.preventDefault();
+						var date = new Date();
+						var this_event = {
+							'time': date.getTime(),
+							'x': tmove.touches[0].pageX,
+							'y': tmove.touches[0].pageY
+						};
+						
+						//I want to get the average of the last 6 mousemove events before mouseup
+						while(tmove_event.length > 4){
+							tmove_event.shift();
+						}
+						
+						if(settings.direction == 'vertical'){
+							delta.y = tmove.touches[0].pageY - click.y;
+							$this.css('top', init_pos.top + delta.y);
+						} else {
+							delta.x = tmove.touches[0].pageX - click.x;
+							$this.css('left', init_pos.left + delta.x);
+						}
+						tmove_event.push(this_event);
+						
+					};
+					
+					var touchend = function(tend){
+						
+						tend.preventDefault();
+						document.removeEventListener('touchmove', touchmove, false);
+						document.removeEventListener('touchend', touchend, false);
+						
+						
+						var date = new Date();
+						
+						var delta_start = tmove_event[0];
+						var delta_end = {
+							'time': date.getTime(),
+							'x': tend.touches[0].pageX,
+							'y': tend.touches[0].pageY
+						};
+						var event_delta = {
+							'time': (delta_end.time - delta_start.time),
+							'x': (delta_end.x - delta_start.x),
+							'y': (delta_end.y - delta_start.y)
+						}
+						var speed = {
+							'x': event_delta.x/event_delta.time,
+							'y': event_delta.y/event_delta.time
+						}
+						
+						//And now we can animate the list with the appropriate distance and speed
+						if(settings.direction == 'vertical'){
+							
+							var pos = init_pos.top + delta.y + speed.y * settings.inertia;
+							//check if the user hasn't dragged over the end..
+							if(pos < ((-1) * properties.height * (cells.pages - 1))){
+								pos = (-1) * properties.height * (cells.pages - 1);
+							} else if(pos > 0){
+								pos = 0;
+							}
+							
+							//if the pages are being displayed, we want to snap to the specific page
+							if(settings.pages){
+								var snap_to_page = Math.round((- pos) / properties.height)
+								methods.go_to(snap_to_page + 1, 'inertia');
+							} else {
+								$this.animate({
+									'top': pos
+								}, Math.abs(speed.y * settings.inertia), 'inertia');
+							}
+							
+							
+						} else {
+							
+							var pos = init_pos.left + delta.x + speed.x * settings.inertia;
+							//check if the user hasn't dragged over the end..
+							if(pos < ((-1) * properties.width * (cells.pages - 1))){
+								pos = (-1) * properties.width * (cells.pages - 1);
+							} else if(pos > 0){
+								pos = 0;
+							}
+							
+							//if the pages are being displayed, we want to snap to the specific page
+							if(settings.pages){
+								var snap_to_page = Math.round((- pos) / properties.width)
+								methods.go_to(snap_to_page + 1, 'inertia');
+							} else {
+								$this.animate({
+									'left': pos
+								}, Math.abs(speed.x * settings.inertia), 'inertia');
+							}
+							
+						}
+						
+					}
+					
+					
+					//touch start event
+					nthis.addEventListener('touchstart', function(tstart){
+						//disable the mouse events
+						$this.unbind('.promptumenu');
+						
+						alert(tstart.touches.length);
+						tstart.preventDefault();
+						
+						$this.stop(true, false);
+						
+						var init_pos = $this.position();
+						var click = {
+							'x': tstart.touches[0].pageX,
+							'y': tstart.touches[0].pageY
+						};
+						var delta = {
+							'x': 0,
+							'y': 0
+						};
+						var tmove_event = new Array();
+						
+						//and we can now bind the touch move event
+						document.addEventListener('touchmove', touchmove, false);
+						
+						//and the touch end event
+						document.addEventListener('touchend', touchend, false);
+					}, false);
+				} catch(error) {
+					//apparently this browser isn't on a mobile device
+				}
 			});
 		}
 	});
