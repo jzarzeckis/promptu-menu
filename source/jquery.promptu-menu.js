@@ -69,7 +69,7 @@
 		
 		if($this.data('promptumenu')){
 			//This element already has promptumenu set up
-			console.error('You are calling promptumenu for an element more than twice. Please have a look.')
+			console.error('You are calling promptumenu for an element more than twice. Please have a look.');
 		} else {
 			//this element hasn't been initialized yet, so we set it up
 			$this.data('promptumenu', true);
@@ -87,11 +87,11 @@
 				'padding': 0,
 				'display': 'block',
 				'overflow': 'hidden'
-			}
+			};
 			cells.width = properties.width / settings.columns;
 			cells.height = properties.height / settings.rows;
 			
-			$this.wrap('<div class="promptumenu_window" />')
+			$this.wrap('<div class="promptumenu_window" />');
 			$this.parent('.promptumenu_window').css(properties);
 			$this.css({
 				'display': 'block',
@@ -266,11 +266,11 @@
 						'time': (delta_end.time - delta_start.time),
 						'x': (delta_end.x - delta_start.x),
 						'y': (delta_end.y - delta_start.y)
-					}
+					};
 					var speed = {
 						'x': event_delta.x/event_delta.time,
 						'y': event_delta.y/event_delta.time
-					}
+					};
 					//console.log(mmove_event);
 					//console.log('The time delta is: ' + (delta_end.time - delta_start.time));
 					//console.log('The y_speed was: ' + (event_delta.y/event_delta.time));
@@ -288,7 +288,7 @@
 						
 						//if the pages are being displayed, we want to snap to the specific page
 						if(settings.pages){
-							var snap_to_page = Math.round((- pos) / properties.height)
+							var snap_to_page = Math.round((- pos) / properties.height);
 							methods.go_to(snap_to_page + 1, 'inertia');
 						} else {
 							$this.animate({
@@ -309,7 +309,7 @@
 						
 						//if the pages are being displayed, we want to snap to the specific page
 						if(settings.pages){
-							var snap_to_page = Math.round((- pos) / properties.width)
+							var snap_to_page = Math.round((- pos) / properties.width);
 							methods.go_to(snap_to_page + 1, 'inertia');
 						} else {
 							$this.animate({
