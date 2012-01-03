@@ -78,12 +78,12 @@
 			properties = {
 				'width': (settings.width == 'auto') ? $this.width() : settings.width,
 				'height': (settings.height == 'auto') ? $this.height() : settings.height,
-				'margin': $this.css('margin'),
-				'position': ($this.css('position') == 'absolute') ? 'absolute' : 'relative',
-				'top': $this.css('top'),
-				'right': $this.css('right'),
-				'bottom': $this.css('bottom'),
-				'left': $this.css('left'),
+				//'margin': $this.css('margin'),
+				//'position': ($this.css('position') == 'absolute') ? 'absolute' : 'relative',
+				//'top': $this.css('top'),
+				//'right': $this.css('right'),
+				//'bottom': $this.css('bottom'),
+				//'left': $this.css('left'),
 				'padding': 0,
 				'display': 'block',
 				'overflow': 'hidden'
@@ -296,7 +296,6 @@
 							}, Math.abs(speed.y * settings.inertia), 'inertia');
 						}
 						
-						
 					} else {
 						
 						var pos = init_pos.left + delta.x + speed.x * settings.inertia;
@@ -455,7 +454,6 @@
 				}, false);
 			} catch(error) {
 				//apparently this browser won't support swiping
-				alert(error);
 			}
 		}
 	});
