@@ -3,6 +3,7 @@
 	position: absolute;
 	bottom:5px;
 	left: 50%;
+	margin-right: -50%;
 }
 .promptumenu_window{
 	cursor: url(hand.ico), move;

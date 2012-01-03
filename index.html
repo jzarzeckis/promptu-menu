@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>jQuery promptumenu</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="promptumenu/promptumenu.css" />
+		<link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="promptumenu/jquery.promptumenu.min.js"></script>
+		
+		<script type="text/javascript">
+			$(function(){
+				$('.example_1 ul').promptumenu({
+					'width': 228,
+					'height': 310,
+					'columns': 2,
+					'rows': 3,
+					'pages': true
+				});
+				
+				$('.example_2 ul').promptumenu({
+					'width': 200,
+					'height': 200,
+					'direction': 'vertical',
+					'rows': 2,
+					'columns': 2,
+					'pages': false,
+					'inertia': 300
+				});
+				
+				$('.example_3 ul').promptumenu({
+					'width': 500,
+					'height': 500,
+					'rows': 3,
+					'columns': 3,
+					'direction': 'horizontal',
+					'pages': true
+				});
+			});
+			
+		</script>
+		
+		<style type="text/css">
+			
+			body{
+				font-family: 'Metrophobic', sans-serif;
+			}
+			
+			.example_1{
+				display: block;
+				margin: 20px;
+				padding: 80px 16px 164px 16px;
+				border: none;
+				width: 228px;
+				height: 310px;
+				background: url(http://natrixnatrix89.net/promptumenu/htc_dream.png) no-repeat 0 0;
+			}
+			.example_1 .promptumenu_window{
+				margin:0;
+				border:none;
+				border-radius: 0;
+				-webkit-border-radius: 0;
+				background: transparent none;
+			}
+			.example_2 .promptumenu_nav{
+				bottom: 2px;
+			}
+			.container{
+				display: block;
+				width: 880px;
+				margin: 30px auto;
+				box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+				-webkit-box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+				-moz-box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+				padding: 40px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Promptumenu jQuery plugin</h1>
+			
+			<p><a href="http://natrixnatrix89.github.com/promptu-menu/">http://natrixnatrix89.github.com/promptu-menu/</a></p>
+			
+			<h3>What does it do?</h3>
+			
+			<p>This plugin is intended to create iPhone or Android like experience by creating a window with a menu.</p>
+			
+			<p>You must be familiar with the concept of iPhone or Android homescreen. You have the window. And icons of various utilities there. And if the count of icons exceeds the space on the menu, a new page is created. By swiping with a finger you can see the next page, and interact with the icons there.</p>
+			
+			<p>This plugin does exactly the same. All you have to do is provide an unordered list with your elements you want to use (list of users, products or other kinds of data). And then call promptumenu plugin simply by $('ul.my_list').promptumenu();</p>
+			
+			<p>What makes this plugin special is the fact I tried to preserve the dynamic experience you get when swiping on an iPhone or Android.. So if user opens the page with a mobile device like Android, iPhone, iPad or iPod, he will be able to swipe with fingers.
+			Also when using mouse, the plugin takes in mind the momentum with which you are moving the mouse..
+			So the list moves with inertia after you release the mouse..</p>
+			
+			
+			<h3>Examples</h3>
+			<h4>2x3 list with horizontal layout</h4>
+			<div class="example_1">
+				<ul>
+					<li><img src="http://natrixnatrix89.net/72PNG/Books.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Browser.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calculator.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calendar.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Camera.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Clock.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Contacts.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Gallery.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/GMail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Mail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Maps.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Market.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Movie Studio.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Music.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Phone.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Settings.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Talk.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/YouTube.png" alt="" /></li>
+				</ul>
+			</div>
+			
+			<h4>2x2 list with vertical movement and pages set to false and increased 'inertia'</h4>
+			<div class="example_2">
+				<ul>
+					<li><img src="http://natrixnatrix89.net/72PNG/Books.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Browser.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calculator.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calendar.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Camera.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Clock.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Contacts.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Gallery.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/GMail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Mail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Maps.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Market.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Movie Studio.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Music.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Phone.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Settings.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Talk.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/YouTube.png" alt="" /></li>
+				</ul>
+			</div>
+			
+			<h4>3x3 list with pages</h4>
+			<div class="example_3">
+				<ul>
+					<li><img src="http://natrixnatrix89.net/72PNG/Books.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Browser.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calculator.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Calendar.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Camera.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Clock.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Contacts.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Gallery.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/GMail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Mail.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Maps.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Market.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Movie Studio.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Music.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Phone.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Settings.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/Talk.png" alt="" /></li>
+					<li><img src="http://natrixnatrix89.net/72PNG/YouTube.png" alt="" /></li>
+				</ul>
+			</div>
+			
+			
+			
+			<h3>Setting up</h3>
+			
+			<p>You can set it up by adding a link to the promptumenu.min.js file and by adding a link to the promptumenu stylesheet (which you can modify to suit your needs), And then by calling promptumenu on your desired elements. Like this:</p>
+			
+			<pre><code>
+&lt;script type="text/javascript" src="promptumenu/jquery.promptumenu.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" type="text/css" href="promptumenu/promptumenu.css" /&gt;
+&lt;script type="text/javascript"&gt;
+	$(function(){
+		$('ul').promptumenu();
+	});
+&lt;/script&gt;
+&lt;/head&gt;
+			</code></pre>
+			
+			<h3>Dependencies</h3>
+			
+			<p>This plugin only requires the jQuery library</p>
+			
+			<h3>Parameters</h3>
+			
+			<p>Although it should work even if you pass no parameters to it(in that case it will take the dimensions of your unordered list DOM element.. and build and position all the elements so that they take the size of your unordered list element, promptumenu can accepts parameters to suit your needs:</p>
+			
+			<ul>
+			<li>Columns. Default: 3. Sets in how many columns the list should be ordered</li>
+			<li>Rows. Default: 4. Sets the row count for ordered elements</li>
+			<li>Direcion. Default: 'horizontal'. Possible valuse are 'horizontal' and 'vertical'. allows you to set the direction in which swiping would be possible</li>
+			<li>Width. Default: 'auto'. Enter the width for the window, in which the menu will appear. If left untouched, plugin will take it from the properties of the element(most likely set in your css)</li>
+			<li>Height. Default: 'auto'. Enter the desired height for your window.</li>
+			<li>Duration. Default: 500. The duration of animation when moving from page to page in milliseconds.</li>
+			<li>Pages. Boolean. Default: true. If set to true, a navigation menu will appear, and when swiping, the list will snap to pages. If set to false - no menu. and the list won't snap to specific positions.. Let's you experience the momentum more.</li>
+			<li>Inertia. Default: 200. A Coefficient that sets the momentum of when releasing the list. Decreasing this value will decrease the inertia, so the movement will stop faster. Increasing it will make the movement faster and more fluid.</li>
+			</ul>
+			
+			<h3>Usage example</h3>
+			
+			<pre><code>
+$('ul').promptumenu({
+	width:500,
+	height:500,
+	rows: 4,
+	columns: 4,
+	direction: 'horizontal',
+	pages: true
+});
+			</code></pre>
+			
+			<h3>Copyright</h3>
+			
+			<p>Copyright (c) 2012 Janis Zarzeckis <a href="http://natrixnatrix89.net">natrixnatrix89.net</a></p>
+			
+			<p>This plugin is dual licenced under MIT and GPL Version 2 licences. </p>
+			
+			<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+			this software and associated documentation files (the "Software"), to deal in
+			the Software without restriction, including without limitation the rights to
+			use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+			of the Software, and to permit persons to whom the Software is furnished to do
+			so, subject to the following conditions:</p>
+			
+			<p>The above copyright notice and this permission notice shall be included in all
+			copies or substantial portions of the Software.</p>
+			
+			<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+			IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+			FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+			AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+			LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+			OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+			SOFTWARE.</p>
+		</div>
+
+	</body>
+</html>
