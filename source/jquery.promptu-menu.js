@@ -451,6 +451,7 @@
 					
 					//and the touch end event
 					document.addEventListener('touchend', touchend, false);
+					document.addEventListener('touchcancel', touchend, false);
 				}, false);
 			} catch(error) {
 				//apparently this browser won't support swiping
