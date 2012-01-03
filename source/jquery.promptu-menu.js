@@ -130,25 +130,49 @@
 					cursor.page += 1;
 				}
 				
+				//attach each li information about it's position in the list
+				$li.data('layout', $.extend({},cursor));
+				
 				if(settings.direction == 'vertical'){
 				  
-					//Lay the pages in a vertical order
+					// Lay the pages in a vertical order
 					$li.css({
-						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.outerHeight()/2) + (cursor.page - 1) * properties.height),
-						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.outerWidth()/2))
+						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.height()/2) + (cursor.page - 1) * properties.height),
+						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.width()/2))
+					});
+					
+					//this might be a silly approach.. but.. if the list contains an image.. I want to
+					//reposition the li.. because before we didn't know the dimensions of image
+					$li.find('img').bind('load', function(){
+						var cursor = $li.data('layout');
+						$li.css({
+							'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.height()/2) + (cursor.page - 1) * properties.height),
+							'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.width()/2))
+						});
 					});
 				  
 				} else {
 				  
 					//Lay the pages in a horizontal order
 					$li.css({
-						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.outerHeight() / 2)),
-						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.outerWidth()/2) + (cursor.page - 1) * properties.width)
+						'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.height()/2)),
+						'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.width()/2) + (cursor.page - 1) * properties.width)
+					});
+					
+					//the same approach for images for the horizontal order
+					$li.find('img').bind('load', function(){
+						var cursor = $li.data('layout');
+						
+						$li.css({
+							'top': Math.round((cursor.y * cells.height - cells.height/2) - ($li.height()/2)),
+							'left': Math.round((cursor.x * cells.width - cells.width/2) - ($li.width()/2) + (cursor.page - 1) * properties.width)
+						});
 					});
 				  
 				}
 				
 			});
+			
 			
 			cells.pages = cursor.page;
 			$this.data('promptumenu_page_count', cells.pages);
@@ -336,8 +360,6 @@
 					tend.preventDefault();
 					document.removeEventListener('touchmove', touchmove, false);
 					document.removeEventListener('touchend', touchend, false);
-					
-					alert('touchend');
 					
 					var date = new Date();
 					

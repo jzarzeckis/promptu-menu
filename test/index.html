@@ -17,6 +17,11 @@
 			}
 			.promptumenu_window{
 				cursor: url(../img/hand.ico), move;
+				background: #EEE;
+				border: solid 5px #666;
+				border-radius: 15px;
+				-webkit-border-radius: 15px;
+				margin: 10px;
 			}
 			.promptumenu_nav a{
 				cursor: pointer;
@@ -25,7 +30,7 @@
 		
 		<script type="text/javascript">
 			$(function(){
-				$('ul').promptumenu({width:500, height:500, rows: 2, columns: 2, direction: 'vertical', pages: true});
+				$('ul').promptumenu({width:500, height:500, rows: 4, columns: 4, direction: 'horizontal', pages: true});
 			});
 		</script>
 	</head>
