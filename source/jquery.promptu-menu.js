@@ -73,6 +73,7 @@
 		} else {
 			//this element hasn't been initialized yet, so we set it up
 			$this.data('promptumenu', true);
+			$this.data('ppos', 0);
 			
 			//take in mind the original css properties of the element, so we can preserve it's position.
 			properties = {
@@ -245,6 +246,8 @@
 					} else {
 						delta.x = mmove.pageX - click.x;
 						$this.css('left', init_pos.left + delta.x);
+						//$this.css('-webkit-transform', 'translate3d(' + (init_pos.left + delta.x) + 'px, 0, 0)');
+
 					}
 					mmove_event.push(this_event);
 				});
@@ -345,10 +348,12 @@
 					
 					if(settings.direction == 'vertical'){
 						tdelta.y = tmove.touches[0].pageY - tclick.y;
-						$this.css('top', tinit_pos.top + tdelta.y);
+						//$this.css('top', tinit_pos.top + tdelta.y);
+						$this.css('-webkit-transform', 'translate3d(0px, ' + (tinit_pos + tdelta.y) + 'px, 0px)');
 					} else {
 						tdelta.x = tmove.touches[0].pageX - tclick.x;
-						$this.css('left', tinit_pos.left + tdelta.x);
+						//$this.css('left', tinit_pos.left + tdelta.x);
+						$this.css('-webkit-transform', 'translate3d(' + (tinit_pos + tdelta.x) + 'px, 0px, 0px)');
 					}
 					tmove_event.push(this_event);
 					
@@ -357,6 +362,7 @@
 				var touchend = function(tend){
 					
 					tend.preventDefault();
+					alert($this.css());
 					document.removeEventListener('touchmove', touchmove, false);
 					document.removeEventListener('touchend', touchend, false);
 					
@@ -435,7 +441,7 @@
 					
 					$this.stop(true, false);
 					
-					tinit_pos = $this.position();
+					tinit_pos = $this.data('ppos');
 					tclick = {
 						'x': tstart.touches[0].pageX,
 						'y': tstart.touches[0].pageY
