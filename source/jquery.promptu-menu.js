@@ -38,22 +38,36 @@
 		
 		var methods = {
 			//navigating to a specific page
-			go_to: function(index, easing){
+			go_to: function(index, easing, webkit){
 				if (easing === undefined){
 					easing = 'swing';
 				}
+				if(webkit === undefined){
+					webkit = false;
+				}
+				var anim, anim_css;
 				if(settings.direction == 'vertical'){
 					
-					$this.animate({
-						'top': (index - 1) * properties.height * (-1)
-					}, settings.duration, easing);
+					anim = {'top': (index - 1) * properties.height * (-1)};
+					anim_css = {'-webkit-transform': 'translate3d(0px, ' + ((index - 1) * properties.height * (-1)) + 'px, 0px)'};
 					
 				} else {
 					
-					$this.animate({
-						'left': (index - 1) * properties.width * (-1)
-					}, settings.duration, easing);
+					anim = {'left': (index - 1) * properties.width * (-1)};
+					anim_css = {'-webkit-transform': 'translate3d(' + ((index - 1) * properties.width * (-1)) + 'px, 0px, 0px)'};
 					
+				}
+				
+				if(webkit){
+					$this.css({
+						'-webkit-transition-property': '-webkit-transform',
+						'-webkit-transition-duration': settings.duration + 'ms',
+						'-webkit-transition-timing-function': 'ease-out'
+					});
+					$this.css(anim_css);
+					$this.data('ppos', (index - 1) * properties.width * (-1));
+				} else {
+					$this.animate(anim, settings.duration, easing);
 				}
 				$this.parent('.promptumenu_window').find('.promptumenu_nav a.active').removeClass('active');
 				$this.parent('.promptumenu_window').find('.promptumenu_nav a:nth-child(' + (index) + ')').addClass('active');
@@ -362,7 +376,6 @@
 				var touchend = function(tend){
 					
 					tend.preventDefault();
-					alert($this.css());
 					document.removeEventListener('touchmove', touchmove, false);
 					document.removeEventListener('touchend', touchend, false);
 					
@@ -382,13 +395,21 @@
 						'x': event_delta.x/event_delta.time,
 						'y': event_delta.y/event_delta.time
 					};
-					//alert('touchend');
 					//alert('speed_x: ' + speed.x + '\nspeed_y: ' + speed.y);
 					
 					//And now we can animate the list with the appropriate distance and speed
+					
 					if(settings.direction == 'vertical'){
 						
-						var pos = tinit_pos.top + tdelta.y + speed.y * settings.inertia;
+						if(isNaN(speed.y)){
+							speed.y = 2;
+						}
+						$this.css({
+							'-webkit-transition-duration': Math.abs(speed.y * settings.inertia * 3) + 'ms',
+							'-webkit-transition-timing-function': 'ease-out'
+						});
+						
+						var pos = tinit_pos + tdelta.y + speed.y * settings.inertia;
 						//check if the user hasn't dragged over the end..
 						if(pos < ((-1) * properties.height * (cells.pages - 1))){
 							pos = (-1) * properties.height * (cells.pages - 1);
@@ -399,17 +420,24 @@
 						//if the pages are being displayed, we want to snap to the specific page
 						if(settings.pages){
 							var snap_to_page = Math.round((- pos) / properties.height);
-							methods.go_to(snap_to_page + 1, 'inertia');
+							methods.go_to(snap_to_page + 1, 'inertia', true);
 						} else {
-							$this.animate({
-								'top': pos
-							}, Math.abs(speed.y * settings.inertia), 'inertia');
+							$this.css('-webkit-transform', 'translate3d(0px, ' + pos + 'px, 0px)');
+							$this.data('ppos', pos);
+						}
+					} else {
+						//alert('init pos: ' + tinit_pos + '\ndelta x: ' + tdelta.x + '\nspeed: ' + speed.x);
+						//if user swipes very fast, sometimes not enough touchmove events get caught, and speed is NaN
+						if(isNaN(speed.x)){
+							speed.x = 2;
 						}
 						
+						$this.css({
+							'-webkit-transition-duration': Math.abs(speed.y * settings.inertia * 3) + 'ms',
+							'-webkit-transition-timing-function': 'ease-out'
+						});
 						
-					} else {
-						
-						var pos = tinit_pos.left + tdelta.x + speed.x * settings.inertia;
+						var pos = tinit_pos + tdelta.x + speed.x * settings.inertia;
 						//check if the user hasn't dragged over the end..
 						if(pos < ((-1) * properties.width * (cells.pages - 1))){
 							pos = (-1) * properties.width * (cells.pages - 1);
@@ -420,11 +448,12 @@
 						//if the pages are being displayed, we want to snap to the specific page
 						if(settings.pages){
 							var snap_to_page = Math.round((- pos) / properties.width);
-							methods.go_to(snap_to_page + 1, 'inertia');
+							methods.go_to(snap_to_page + 1, 'inertia', true);
 						} else {
-							$this.animate({
-								'left': pos
-							}, Math.abs(speed.x * settings.inertia), 'inertia');
+							
+							$this.css('-webkit-transform', 'translate3d(' + pos + 'px, 0px, 0px)');
+							$this.data('ppos', pos);
+							//alert(pos);
 						}
 						
 					}
@@ -440,6 +469,9 @@
 					tstart.preventDefault();
 					
 					$this.stop(true, false);
+					$this.css({
+						'-webkit-transition-duration': '0ms'
+					});
 					
 					tinit_pos = $this.data('ppos');
 					tclick = {
@@ -460,7 +492,8 @@
 					document.addEventListener('touchcancel', touchend, false);
 				}, false);
 			} catch(error) {
-				//apparently this browser won't support swiping
+				//apparently this browser wont support swiping
+				alert(error);
 			}
 		}
 	});
