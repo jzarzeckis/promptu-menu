@@ -493,7 +493,7 @@
 				}, false);
 			} catch(error) {
 				//apparently this browser wont support swiping
-				alert(error);
+				//alert(error);
 			}
 		}
 	});
