@@ -458,25 +458,30 @@
 						
 					}
 					
+					
 				};
 				
 				
 				//touch start event
 				$this[0].addEventListener('touchstart', function(tstart){
+					//alert('touchstart');
 					//disable the mouse events
 					$this.unbind('.promptumenu');
 					
-					tstart.preventDefault();
+					//tstart.preventDefault();
 					
 					$this.stop(true, false);
 					$this.css({
 						'-webkit-transition-duration': '0ms'
 					});
 					
+					var date = new Date();
+					
 					tinit_pos = $this.data('ppos');
 					tclick = {
 						'x': tstart.touches[0].pageX,
-						'y': tstart.touches[0].pageY
+						'y': tstart.touches[0].pageY,
+						'time': date.getTime()
 					};
 					tdelta = {
 						'x': 0,
