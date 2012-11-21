@@ -1,9 +1,9 @@
-Promptumenu jQuery plugin
-=========================
+# Promptumenu jQuery plugin
 
-http://natrixnatrix89.github.com/promptu-menu/
+[Promptu-menu](http://natrixnatrix89.github.com/promptu-menu/)
 
-### What does it do?
+## What does it do?
+
 This plugin is intended to create iPhone or Android like experience by creating a window with a menu.
 
 You must be familiar with the concept of iPhone or Android homescreen. You have the window. And icons of various utilities there. And if the count of icons exceeds the space on the menu, a new page is created. By swiping with a finger you can see the next page, and interact with the icons there.
@@ -14,9 +14,11 @@ What makes this plugin special is the fact I tried to preserve the dynamic exper
 Also when using mouse, the plugin takes in mind the momentum with which you are moving the mouse..
 So the list moves with inertia after you release the mouse..
 
-### Setting up
+## Setting up
+
 You can set it up by adding a link to the promptumenu.min.js file and by adding a link to the promptumenu stylesheet (which you can modify to suit your needs), And then by calling promptumenu on your desired elements. Like this:
 
+```html
 	<script type="text/javascript" src="promptumenu/jquery.promptumenu.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="promptumenu/promptumenu.css" />
 	<script type="text/javascript">
@@ -25,11 +27,14 @@ You can set it up by adding a link to the promptumenu.min.js file and by adding 
 		});
 	</script>
 	</head>
+```
 
-### Dependencies
+## Dependencies
+
 This plugin only requires the jQuery library
 
-### Parameters
+## Parameters
+
 Although it should work even if you pass no parameters to it(in that case it will take the dimensions of your unordered list DOM element.. and build and position all the elements so that they take the size of your unordered list element, promptumenu can accepts parameters to suit your needs:
 
 - Columns. Default: 3. Sets in how many columns the list should be ordered
@@ -41,7 +46,9 @@ Although it should work even if you pass no parameters to it(in that case it wil
 - Pages. Boolean. Default: true. If set to true, a navigation menu will appear, and when swiping, the list will snap to pages. If set to false - no menu. and the list won't snap to specific positions.. Let's you experience the momentum more.
 - Inertia. Default: 200. A Coefficient that sets the momentum of when releasing the list. Decreasing this value will decrease the inertia, so the movement will stop faster. Increasing it will make the movement faster and more fluid.
 
-### Usage example
+## Usage example
+
+```javascript
 	$('ul').promptumenu({
 		width:500,
 		height:500,
@@ -50,8 +57,10 @@ Although it should work even if you pass no parameters to it(in that case it wil
 		direction: 'horizontal',
 		pages: true
 	});
+```
 
-### Copyright
+## Copyright
+
 Copyright (c) 2012 Janis Zarzeckis [natrixnatrix89.net](http://natrixnatrix89.net)
 
 This plugin is dual licenced under MIT and GPL Version 2 licences. 
