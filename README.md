@@ -1,4 +1,5 @@
 # Promptumenu jQuery plugin
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 [Promptu-menu](http://natrixnatrix89.github.com/promptu-menu/)
 
